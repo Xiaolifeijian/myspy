@@ -25,7 +25,7 @@ dns:
     fake-ip-filter: ['*.lan', '*.localdomain', '*.example', '*.invalid', '*.localhost', '*.test', '*.local', '*.home.arpa', 'time.*.com', 'time.*.gov', 'time.*.edu.cn', 'time.*.apple.com', 'time1.*.com', 'time2.*.com', 'time3.*.com', 'time4.*.com', 'time5.*.com', 'time6.*.com', 'time7.*.com', 'ntp.*.com', 'ntp1.*.com', 'ntp2.*.com', 'ntp3.*.com', 'ntp4.*.com', 'ntp5.*.com', 'ntp6.*.com', 'ntp7.*.com', '*.time.edu.cn', '*.ntp.org.cn', +.pool.ntp.org, time1.cloud.tencent.com, music.163.com, '*.music.163.com', '*.126.net', musicapi.taihe.com, music.taihe.com, songsearch.kugou.com, trackercdn.kugou.com, '*.kuwo.cn', api-jooxtt.sanook.com, api.joox.com, joox.com, y.qq.com, '*.y.qq.com', streamoc.music.tc.qq.com, mobileoc.music.tc.qq.com, isure.stream.qqmusic.qq.com, dl.stream.qqmusic.qq.com, aqqmusic.tc.qq.com, amobile.music.tc.qq.com, '*.xiami.com', '*.music.migu.cn', music.migu.cn, +.msftconnecttest.com, +.msftncsi.com, msftconnecttest.com, msftncsi.com, localhost.ptlogin2.qq.com, localhost.sec.qq.com, +.srv.nintendo.net, +.stun.playstation.net, 'xbox.*.microsoft.com', xnotify.xboxlive.com, +.ipv6.microsoft.com, +.battlenet.com.cn, +.wotgame.cn, +.wggames.cn, +.wowsgame.cn, +.wargaming.net, proxy.golang.org, 'stun.*.*', 'stun.*.*.*', '+.stun.*.*', '+.stun.*.*.*', '+.stun.*.*.*.*', heartbeat.belkin.com, '*.linksys.com', '*.linksyssmartwifi.com', '*.router.asus.com', mesu.apple.com, swscan.apple.com, swquery.apple.com, swdownload.apple.com, swcdn.apple.com, swdist.apple.com, lens.l.google.com, stun.l.google.com, '*.square-enix.com', '*.finalfantasyxiv.com', '*.ffxiv.com', '*.ff14.sdo.com', ff.dorado.sdo.com, '*.mcdn.bilivideo.cn', +.media.dssott.com, +.pvp.net]
     nameserver: ['tls://223.5.5.5:853', 'tls://223.6.6.6:853', 'https://doh.pub/dns-query', 'https://dns.alidns.com/dns-query']
 proxies:
-     - { name: 日本-优化, type: vmess, server: yes.mojcn.com, port: 16617, uuid: 0f3202f8-7884-421b-a174-edb1b2e8f906, alterId: 0, cipher: auto, udp: true, network: ws, ws-opts: { path: /, headers: { Host: e3a02e51b98c2707b6ecab9532825031.mobgslb.tbcache.com } }, ws-path: /, ws-headers: { Host: e3a02e51b98c2707b6ecab9532825031.mobgslb.tbcache.com } }
+    - { name: 日本-优化, type: vmess, server: yes.mojcn.com, port: 16617, uuid: 0f3202f8-7884-421b-a174-edb1b2e8f906, alterId: 0, cipher: auto, udp: true, network: ws, ws-opts: { path: /, headers: { Host: e3a02e51b98c2707b6ecab9532825031.mobgslb.tbcache.com } }, ws-path: /, ws-headers: { Host: e3a02e51b98c2707b6ecab9532825031.mobgslb.tbcache.com } }
     - { name: 澳大利亚AU-T, type: trojan, server: au.mjt000.com, port: 443, password: 0f3202f8-7884-421b-a174-edb1b2e8f906, udp: true, sni: au.mjt000.com }
     proxy-groups:
     - { name: 节点选择, type: select, proxies: [自动选择, 故障转移, 境内使用, 海外使用, Telegram, TikTok, 微软服务,  苹果服务, 谷歌服务, Steam, 日本-优化, 澳大利亚AU-T] }
@@ -1280,3 +1280,140 @@ rules:
     - 'DOMAIN-SUFFIX,CN,DIRECT'
     - 'GEOIP,CN,DIRECT'
     - 'MATCH,节点选择'
+
+port: 3333
+socks-port: 23456
+redir-port: 23457
+allow-lan: true
+mode: rule
+log-level: error
+external-controller: 192.168.50.1:9990
+experimental:
+  ignore-resolve-fail: true
+external-ui: dashboard
+external-ui-name: metacubexd
+secret: "clash"
+profile:
+  store-selected: true
+  store-fake-ip: true
+ipv6: false
+
+hosts:
+  services.googleapis.cn: 74.125.193.94
+  time.android.com: 203.107.6.88
+  
+
+routing-mark: 255
+
+dns:
+  enable: true
+  ipv6: false
+  default-nameserver:
+    - 223.5.5.5
+    - 8.8.8.8
+  listen: :23453
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16 
+  fake-ip-filter:
+    - '*.lan'
+    - '*.linksys.com'
+    - '*.linksyssmartwifi.com'
+    # Apple
+    - 'swscan.apple.com'
+    - 'mesu.apple.com'
+    - 'swquery.apple.com'
+    - 'swdownload.apple.com'
+    - 'swcdn.apple.com'
+    - 'swdist.apple.com'
+    # Microsoft Service
+    - '*.msftconnecttest.com'
+    - '*.msftncsi.com'
+    - 'xbox.*.microsoft.com'
+    - 'xbox.*.*.microsoft.com'
+    - '+.xboxlive.com'
+    #  NTP Service
+    - 'time.*.com'
+    - 'time.*.gov'
+    - 'time.*.edu.cn'
+    - 'time.*.apple.com'
+    - 'time1.*.com'
+    - 'time2.*.com'
+    - 'time3.*.com'
+    - 'time4.*.com'
+    - 'time5.*.com'
+    - 'time6.*.com'
+    - 'time7.*.com'
+    - 'ntp.*.com'
+    - 'ntp.*.com'
+    - 'ntp1.*.com'
+    - 'ntp2.*.com'
+    - 'ntp3.*.com'
+    - 'ntp4.*.com'
+    - 'ntp5.*.com'
+    - 'ntp6.*.com'
+    - 'ntp7.*.com'
+    - '*.time.edu.cn'
+    - '*.ntp.org.cn'
+    - '+.pool.ntp.org'
+    - 'time1.cloud.tencent.com'
+    # Google
+    - 'lens.l.google.com'
+    # Music Service
+    - '+.music.163.com'
+    - '+.126.net'
+    - 'musicapi.taihe.com'
+    - 'music.taihe.com'
+    - 'songsearch.kugou.com'
+    - 'trackercdn.kugou.com'
+    - '*.kuwo.cn'
+    - 'api-jooxtt.sanook.com'
+    - 'api.joox.com'
+    - 'joox.com'
+    - '+.y.qq.com'
+    - '+.music.tc.qq.com'
+    - 'aqqmusic.tc.qq.com'
+    - '+.stream.qqmusic.qq.com'
+    - '+.xiami.com'
+    - '+.music.migu.cn'
+    # Game Service
+    - '+.stun.*.*'
+    - '+.stun.*.*.*'
+    - '+.stun.*.*.*.*'
+    - '+.stun.*.*.*.*.*'
+    - '+.srv.nintendo.net'
+    - '*.n.n.srv.nintendo.net'
+    - '+.stun.playstation.net'
+    - '+.battlenet.com.cn'
+    - '+.wotgame.cn'
+    - '+.wggames.cn'
+    - '+.wowsgame.cn'
+    - '+.wargaming.net'
+    - '*.square-enix.com'
+    - '*.finalfantasyxiv.com'
+    - '*.ffxiv.com'
+    - '*.ff14.sdo.com'
+    - 'ff.dorado.sdo.com'
+    # Other
+    - 'localhost.ptlogin2.qq.com'
+    - 'localhost.sec.qq.com'
+    - 'proxy.golang.org'
+    - '+.qq.com'
+    - '+.baidu.com'
+    - '+.163.com'
+    - '+.126.net'
+    - '+.taobao.com'
+    - '+.jd.com'
+    - '+.tmall.com'
+    - '*.mcdn.bilivideo.cn'
+    - '+.nvidia.com'
+    - '+.nvidia.cn'
+    - '+.nvgs.nvidia.com'
+    - '+.nvgs.nvidia.cn'
+    - 'shark007.net'
+  nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+    - 180.76.76.76
+    
+tproxy: true
+tproxy-port: 23458
